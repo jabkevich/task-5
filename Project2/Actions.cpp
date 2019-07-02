@@ -10,6 +10,7 @@ int Actions::The_Battle_with_Bear(Player & player)
 	//-1-смерть
 	//0-отспуление
 	//1-поебда
+	Massage m;
 	Map_for_fight field;
 	calculation calc;
 	Chek ch;
@@ -19,27 +20,26 @@ int Actions::The_Battle_with_Bear(Player & player)
 	int number_of_moves_for_bear=10;
 
 
-	do{
+	do {
 		number_of_moves_for_player = 10;
 		number_of_moves_for_bear = 10;
 
-		cout << "¬ыше HP: " << player.Get_HP() <<" "<< endl;
+		cout << "¬ыше HP: " << player.Get_HP() << " " << endl;
 		cout << "HP мишки: " << bear.Get_HP() << endl;
 		cout << "уровень мишки: " << bear.Get_LVL() << endl;
-		cout << "¬аше место-положение\n";
-		cout << "ваша ближн€€ быстра€ атака: " << player.melee_attack(1) << ". сильна€ атака: " << player.melee_attack(1) << endl << "¬аша дальн€€ быстра€ атака" << player.long_range_attack(1) << ". ¬аша сильна€ дальн€€ атака" << player.long_range_attack(2) << endl << "¬аша брон€ " << player.Use_Armor() << endl; 
-		cout << "быстра€ атака вашего врага: " << bear.melee_attack(1) << " сильна€ атака: " << bear.melee_attack(2) << endl << "lальн€€ быстра€ атака врага" << player.long_range_attack(1) << ". сильна€ дальн€€ атака" << player.long_range_attack(2) << endl; 
+		cout << "ваша ближн€€ быстра€ атака: " << player.melee_attack(1) << ". сильна€ атака: " << player.melee_attack(2) << endl << "¬аша дальн€€ быстра€ атака" << player.long_range_attack(1) << ". ¬аша сильна€ дальн€€ атака" << player.long_range_attack(2) << endl << "¬аша брон€ " << player.Use_Armor() << endl;
+		cout << "быстра€ атака вашего врага: " << bear.melee_attack(1) << " сильна€ атака: " << bear.melee_attack(2) << endl << "дальн€€ быстра€ атака врага" << player.long_range_attack(1) << ". сильна€ дальн€€ атака" << player.long_range_attack(2) << endl;
 		cout << endl;
-		
-		
+
+
 		do {
 			for (int i = 0; i < 6; i++) {
 				if (i == field.return_x1())
 					cout << "+";
 				else
-				if (i == field.return_x2())
-					cout << "-";
-				else cout << "_";
+					if (i == field.return_x2())
+						cout << "-";
+					else cout << "_";
 			}
 			cout << endl;
 			cout << "” вас " << number_of_moves_for_player << "ходов. ¬ыбери действие:\n ";
@@ -87,6 +87,7 @@ int Actions::The_Battle_with_Bear(Player & player)
 			}
 		} while (a != 5);
 
+		if (bear.Get_HP() < 0) {m.massage_about_wins(); return 1;}
 		int min = 1; int max = 4;
 		int count = 0;
 		do {
@@ -94,33 +95,33 @@ int Actions::The_Battle_with_Bear(Player & player)
 			a= min + (int)floor((double(rand()) / RAND_MAX)*(max-min + 1));;
 			switch (a)
 			{
-			case 1: if (ch.Chek_moves(number_of_moves_for_player, 1)) {
+			case 1: if (ch.Chek_moves(number_of_moves_for_bear, 1)) {
 				if (ch.Advance_Distance_Check(field.return_x2(), field.return_x1()))
 				{
 					field.minus_x2();
-					number_of_moves_for_player--;
+					number_of_moves_for_bear--;
 				}
 			}break;
 
-			case 2:  if (ch.Chek_moves(number_of_moves_for_player, 1)) {
+			case 2:  if (ch.Chek_moves(number_of_moves_for_bear, 1)) {
 				if (ch.End_Check(field.return_x2(), 1)) {
 					field.plus_x2();
-					number_of_moves_for_player--;
+					number_of_moves_for_bear--;
 				}
 				break;
 			}
-			case 3:  if (ch.Chek_moves(number_of_moves_for_player, 4)) {
+			case 3:  if (ch.Chek_moves(number_of_moves_for_bear, 4)) {
 				if (ch.Check_Distance_For_Attack( field.return_x2(), field.return_x1()))
 				{
 					player.Set_HP(calc.Damage_Calculation(player.Use_Armor(), player.melee_attack(i)));
-					number_of_moves_for_player -= 4;
+					number_of_moves_for_bear -= 4;
 
 				}
 			}break;
 
-			case 4: if (ch.Chek_moves(number_of_moves_for_player, 2)) {
+			case 4: if (ch.Chek_moves(number_of_moves_for_bear, 2)) {
 				player.Set_HP(calc.Damage_Calculation(player.Use_Armor(), player.long_range_attack(i)));
-				number_of_moves_for_player -= 2;
+				number_of_moves_for_bear -= 2;
 
 			} break;
 			}
@@ -138,7 +139,7 @@ int Actions::The_Battle_with_Bear(Player & player)
 
 	
 	} while (player.Get_HP() > 0 && bear.Get_HP() > 0);
-	Massage m;
+
 	if (player.Get_HP() <= 0) { m.massage_about_loss(); return -1; }
 	if (bear.Get_HP() <= 0) { m.massage_about_wins(); return 1; }
 }

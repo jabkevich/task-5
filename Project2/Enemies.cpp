@@ -7,13 +7,11 @@ using namespace std;
 float Bear::melee_attack(int i)
 
 {
-	cout << "Медведь делает кусь\n";
 	return (Use_Weapon.Use_Sword(i) + (Use_Weapon.Use_Sword(i)*float(LVL) / 100))/1.5;
 }
 
 float Bear::long_range_attack(int i)
 {
-	cout << "Медведь кидает камень\n";
 	return Use_Weapon.Use_Ranged(i)+(Use_Weapon.Use_Ranged(i)*float(LVL) / 100)/1.5;
 }
 
