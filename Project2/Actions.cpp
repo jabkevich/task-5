@@ -4,15 +4,16 @@
 #include<string>
 
 using namespace std;
-int Actions::The_Battle_with_Bear(Player & player, Pers & bear)
+int Actions::The_Battle_with_Bear(Player & player)
 {
+	Bear bear;
 	//-1-смерть
 	//0-отспуление
 	//1-поебда
 	Map_for_fight field;
 	calculation calc;
 	Chek ch;
-	int i=0;
+	int i=1;
 	int a=0;
 	int number_of_moves_for_player=10;
 	int number_of_moves_for_bear=10;
@@ -24,25 +25,27 @@ int Actions::The_Battle_with_Bear(Player & player, Pers & bear)
 
 		cout << "Выше HP: " << player.Get_HP() <<" "<< endl;
 		cout << "HP мишки: " << bear.Get_HP() << endl;
+		cout << "уровень мишки: " << bear.Get_LVL() << endl;
 		cout << "Ваше место-положение\n";
 		cout << "ваша ближняя быстрая атака: " << player.melee_attack(1) << ". сильная атака: " << player.melee_attack(1) << endl << "Ваша дальняя быстрая атака" << player.long_range_attack(1) << ". Ваша сильная дальняя атака" << player.long_range_attack(2) << endl << "Ваша броня " << player.Use_Armor() << endl; 
 		cout << "быстрая атака вашего врага: " << bear.melee_attack(1) << " сильная атака: " << bear.melee_attack(2) << endl << "lальняя быстрая атака врага" << player.long_range_attack(1) << ". сильная дальняя атака" << player.long_range_attack(2) << endl; 
 		cout << endl;
-		for (int i = 0; i < 10; i++) {
-			if (i == field.return_x1())
-				cout << "+";
-			else cout << "_";
-			if (i == field.return_x2())
-				cout << "-";
-			else cout << "_";
-			
-		}
+		
+		
 		do {
+			for (int i = 0; i < 6; i++) {
+				if (i == field.return_x1())
+					cout << "+";
+				else
+				if (i == field.return_x2())
+					cout << "-";
+				else cout << "_";
+			}
 			cout << endl;
 			cout << "У вас " << number_of_moves_for_player << "ходов. Выбери действие:\n ";
 			cout << "Выше HP: " << player.Get_HP() << " " << endl;
 			cout << "HP мишки: " << bear.Get_HP() << endl;
-			cout << "отступить: 0";
+			cout << "отступить: 0\n";
 			cout << "приблизиться на одну клетку 1. Это займет 1-балл\n";
 			cout << "отдалиться на одну клетку 2. Это займет 1-балл\n";
 			cout << "ударть мечем: 3. Это займет 4-балла\n";
@@ -91,18 +94,18 @@ int Actions::The_Battle_with_Bear(Player & player, Pers & bear)
 	
 
 	
-	} while (player.Get_HP() <= 0 && bear.Get_HP() <= 0);
-
-	if (player.Get_HP() <= 0)return -1;
-	if (bear.Get_HP() <= 0)return 1;
+	} while (player.Get_HP() > 0 && bear.Get_HP() > 0);
+	Massage m;
+	if (player.Get_HP() <= 0) { m.massage_about_loss(); return -1; }
+	if (bear.Get_HP() <= 0) { m.massage_about_wins(); return 1; }
 }
 
-int Actions::The_Battle_with_Elk(Player & player, Pers & elk)
+int Actions::The_Battle_with_Elk(Player & player)
 {
 	//-1-смерть
 //0-отспуление
 //1-поебда
-
+	mad_elk elk;
 	calculation calc;
 	int i=0;
 
@@ -113,9 +116,9 @@ int Actions::The_Battle_with_Elk(Player & player, Pers & elk)
 	return 0;
 }
 
-int Actions::nothing(Player & player, Pers & elk)
+int Actions::nothing(Player & player)
 {
-	return 0;
+	return 9;
 }
 
 void Massage::massage_about_Advance_Distance()
@@ -138,6 +141,16 @@ void Massage::massage_about_Moves()
 	cout << "у вас не хватает очков\n" << endl;
 }
 
+void Massage::massage_about_wins(){
+
+ cout << "вы победили\n";
+}
+
+void Massage::massage_about_loss()
+{
+	cout << "вы погибли\n";
+}
+
 bool Chek::Chek_moves(int num1, int num2)
 {
 	Massage m;
@@ -149,8 +162,8 @@ bool Chek::Chek_moves(int num1, int num2)
 bool Chek::Advance_Distance_Check(int x1, int x2)
 {
 	Massage m;
-	if (x1 + 2 == x2) { m.massage_about_Advance_Distance(); return false; }
-	if (x1 - 2 == x2) return false;
+	if (x1 + 1 == x2) { m.massage_about_Advance_Distance(); return false; }
+	if (x1 - 1 == x2) return false;
 	return true;
 }
 
@@ -165,8 +178,10 @@ bool Chek::End_Check(int x1, int i)
 bool Chek::Check_Distance_For_Attack(int x1, int x2)
 {
 	Massage m;
-	if (x1 + 2 != x2) { m.massage_about_Check_Distance_For_Attack(); return false; }
-	if (x1 - 2 != x2) { return false; }
+	if (x1 < x2) {
+		if (x1 + 1 != x2) { m.massage_about_Check_Distance_For_Attack(); return false; }
+	}else
+	if (x1 - 1 != x2) { return false; }
 	return true;
 }
 
@@ -176,5 +191,5 @@ void calculation::Boost_skells(Player & player)
 
 float calculation::Damage_Calculation(float Armor, float Damage)
 {
-	return 0.0f;
+	return -(Damage-(Damage*Armor/100));
 }

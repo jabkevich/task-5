@@ -8,6 +8,8 @@ public:
 	void massage_about_Check_Distance_For_Attack();
 	void massage_about_End_Check();
 	void  massage_about_Moves();
+	void  massage_about_wins();
+	void  massage_about_loss();
 };
 
 class Chek :public Player {
@@ -31,9 +33,9 @@ public:
 
 class Actions {
 public:
-	int The_Battle_with_Bear(Player &player, Pers &bear);
-	int The_Battle_with_Elk(Player &player, Pers &bear);
-	int nothing(Player &player, Pers &bear);
+	int The_Battle_with_Bear(Player &player);
+	int The_Battle_with_Elk(Player &player);
+	int nothing(Player &player);
 };
 
 

@@ -27,6 +27,16 @@ float Bear::Get_HP()
 	return HP;
 }
 
+int Bear::Get_LVL()
+{
+	return LVL;
+}
+
+Bear::Bear()
+{
+	LVL=1 + (int)floor((double(rand()) / RAND_MAX)*(10 - 1  + 1));
+}
+
 Bear::Bear(int lvl)
 {
 	LVL = lvl;
@@ -36,6 +46,10 @@ mad_elk::mad_elk(int lvl)
 {
 	LVL = lvl;
 }
+mad_elk::mad_elk()
+{
+	LVL = 1 + (int)floor((double(rand()) / RAND_MAX)*(10 - 1 + 1));
+}
 void mad_elk::Set_HP(float hp)
 {
 	HP += hp;
@@ -44,6 +58,11 @@ void mad_elk::Set_HP(float hp)
 float mad_elk::Get_HP()
 {
 	return HP;
+}
+
+int mad_elk::Get_LVL()
+{
+	return LVL;
 }
 
 float mad_elk::melee_attack(int i)

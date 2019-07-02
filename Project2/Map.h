@@ -1,6 +1,6 @@
 #include"Actions.h"
 #include"Players.h"
-const int begin_Map = 0, end_Map = 10;
+const int begin_Map = 0, end_Map = 5;
 const int max_word=100;
 const int max_act=30;
 
@@ -11,7 +11,7 @@ const int max_act=30;
 
 class Map {
 private:
-	typedef int (Actions::* pToFunc)(Player &, Pers&);
+	typedef int (Actions::* pToFunc)(Player &);
 	pToFunc pt[max_word][max_word];
 	int World[max_word][max_word];
 	Actions atc;
@@ -28,6 +28,8 @@ public:
 	void Generation_Of_The_World();
 
 	void print();
+
+	int Do_Act(int x_bef, int y_beg, int &x, int &y, Player &play);
 
 };
 
@@ -46,3 +48,6 @@ public:
 	void minus_x2();
 
 };
+
+
+void Playng(int x, int y);

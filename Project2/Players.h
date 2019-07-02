@@ -11,6 +11,7 @@ public:
 	virtual float long_range_attack(int i) = 0;
 	virtual float Get_HP()=0;
 	virtual void Set_HP(float hp)=0;
+	virtual int Get_LVL()=0;
 };
 
 
@@ -26,6 +27,7 @@ public:
 	void Set_Exprience(float ex);
 	void Set_HP(float hp);
 	float Get_HP();
+	int Get_LVL();
 protected:
 	
 
@@ -36,11 +38,13 @@ class Bear : public Pers {
 private:
 
 public:
+	Bear();
 	Bear(int lvl);
 	float melee_attack(int i) override;
 	float long_range_attack(int i) override;
 	void Set_HP(float hp)override;
 	float Get_HP()override;
+	int Get_LVL();
 protected:
 	
 };
@@ -50,10 +54,12 @@ private:
 
 public:
 	mad_elk(int lvl);
+	mad_elk();
 	float melee_attack(int i) override;
 	float long_range_attack(int i) override;
 	void Set_HP(float hp)override;
 	float Get_HP()override;
+	int Get_LVL();
 protected:
 
 };

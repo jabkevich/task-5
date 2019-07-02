@@ -1,7 +1,8 @@
 #include"Map.h"
 #include<cmath>
 #include<iostream>
-
+#include <ctime> 
+#include <stdlib.h>
 using namespace std;
 Map::Map(int max, int min)
 {
@@ -24,7 +25,8 @@ Map::Map(int max, int min)
 
 	for (int i = 0; i < max_x; i++) {
 		for (int j = 0; j < max_y; j++) {
-			 World[i][j]=0;
+			if (i == max_x / 2 && j == max_y / 2) World[i][j] = 9;else
+			World[i][j] = 0;
 		}
 	}
 
@@ -38,13 +40,11 @@ void Map::Generation_Of_The_World()
 	int RandAct;
 	int Min_RandAct=0;
 	int Max_RandAct=3;
-
+	srand(time(NULL));
 
 	cout << endl;
 	for (int i = 0; i < max_act; i++) {
-		/*x = 0 + (int)floor((double(rand()) / RAND_MAX)*(max_x-0- i +1));
-		y =0  + (int)floor((double(rand()) / RAND_MAX)*(max_y - 0- i  + 1));
-		RandAct = Min_RandAct + (int)floor((double(rand()) / RAND_MAX)*(Max_RandAct - Min_RandAct + 1));*/
+	
 		x=0 + (int)floor((double(rand()) / RAND_MAX)*(max_x-1 - 0 -i+ 1));
 		y = 0 + (int)floor((double(rand()) / RAND_MAX)*(max_y-1 - 0-i + 1));
 		if (x != max_x / 2 && y != max_y / 2) {
@@ -67,14 +67,34 @@ void Map::Generation_Of_The_World()
 void Map::print()
 {
 	for (int i = 0; i < max_x; i++) {
-		for (int j = 0; j < abs(max_y); j++) {
-			if (i == max_x / 2 && j == abs(max_y) / 2)cout << "p" << "  ";else
-			cout << World[i][j]<<"  ";
+		for (int j = 0; j < max_y; j++) {
+			
+			cout << World[j][i]<<"  ";
 			
 		}
 		cout << endl;
 	
 	}
+}
+
+int Map::Do_Act(int x_beg, int y_beg, int &x, int &y, Player &play)
+{
+	World[x_beg][y_beg] = 0;
+	int point = World[x][y];
+	  World[x][y]=9;
+
+	  int a = (atc.*pt[x][y])(play);;
+	  if (a == 0) {
+		  World[x_beg][y_beg] = 9;
+		  World[x][y] = point;
+		  x = x_beg;
+		  y = y_beg;
+	  }
+	
+	  
+	  return a;
+		
+		
 }
 
 Map_for_fight::Map_for_fight()
@@ -111,3 +131,40 @@ void Map_for_fight::minus_x2()
 {
 	x2--;
 };
+
+void Playng(int x, int y)
+{
+	Map map(x, y);
+	Player play;
+	///////
+	map.Generation_Of_The_World();
+	
+	int x_player=x/2;
+	int y_player=y/2;
+	int x1_player = x / 2;
+	int y1_player = y / 2;
+	char a;
+	int answer;
+	do {
+		cout << "управление wsad. выход из игры n\n";
+
+		map.print();
+		cin >> a;
+		switch (a)
+		{
+		case 'w':answer= map.Do_Act(x1_player, y1_player,x_player, --y_player, play);  break;
+		case 's':answer = map.Do_Act(x1_player, y1_player,x_player, ++y_player, play); break;
+		case 'a':answer = map.Do_Act(x1_player, y1_player,--x_player, y_player, play); break;
+		case 'd': answer = map.Do_Act(x1_player, y1_player,++x_player, y_player, play); break;
+	
+		default: break;
+		}
+		x1_player = x_player;
+	    y1_player = y_player;
+		
+		system("cls");
+	} while (a != 'n'&&a!=-1);
+	cout << "игра окончена\n";
+
+	
+}

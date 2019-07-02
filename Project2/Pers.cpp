@@ -39,3 +39,8 @@ float Player::Get_HP()
 {
 	return HP;
 }
+
+int Player::Get_LVL()
+{
+	return LVL;
+}
