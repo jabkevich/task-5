@@ -1,16 +1,31 @@
 #include"Map.h"
 #include<cmath>
+#include<iostream>
+
+using namespace std;
 Map::Map(int max, int min)
 {
-	x_y_max = max;
-	x_y_min = min;
-	arr = new int[x_y_max + abs(x_y_min)];
-	for (int i = 0; i < x_y_max + abs(x_y_min); i++) {
-		arr[i]= i;
+	max_x = max;
+	max_y = min;
+	arr_x = new int[max_x];
+	arr_y = new int[max_y];
+
+	for (int i = 0; i < max_x; i++) {
+		arr_x[i]= i;
 	}
-	
-	for (int i = x_y_min; i < x_y_max; i++) {
-		pt[i][i] = &Actions::nothing;
+	for (int i = 0; i < max_y; i++) {
+		arr_y[i] = i;
+	}
+	for (int i = 0; i < max_x; i++) {
+		for (int j = 0; j < max_y; j++) {
+			pt[i][j] = &Actions::nothing;
+		}
+	}
+
+	for (int i = 0; i < max_x; i++) {
+		for (int j = 0; j < max_y; j++) {
+			 World[i][j]=0;
+		}
 	}
 
 	
@@ -18,9 +33,47 @@ Map::Map(int max, int min)
 
 void Map::Generation_Of_The_World()
 {
-	int j;
+	int x=0;
+	int y=0;
+	int RandAct;
+	int Min_RandAct=0;
+	int Max_RandAct=3;
+
+
+	cout << endl;
 	for (int i = 0; i < max_act; i++) {
-		j = x_y_min + (int)floor((double(rand()) / RAND_MAX)*(x_y_max - x_y_min + 1));
+		/*x = 0 + (int)floor((double(rand()) / RAND_MAX)*(max_x-0- i +1));
+		y =0  + (int)floor((double(rand()) / RAND_MAX)*(max_y - 0- i  + 1));
+		RandAct = Min_RandAct + (int)floor((double(rand()) / RAND_MAX)*(Max_RandAct - Min_RandAct + 1));*/
+		x=0 + (int)floor((double(rand()) / RAND_MAX)*(max_x-1 - 0 -i+ 1));
+		y = 0 + (int)floor((double(rand()) / RAND_MAX)*(max_y-1 - 0-i + 1));
+		if (x != max_x / 2 && y != max_y / 2) {
+			switch (0)//вставить переменную RandAct после того как будут добавлены новые акты или диалоги.
+			{
+			case 0: pt[arr_x[x]][arr_y[y]] = &Actions::The_Battle_with_Bear;
+				World[arr_x[x]][arr_y[y]] = 1; break;//опасность
+			case 1: pt[arr_x[x]][arr_y[y]] = &Actions::The_Battle_with_Elk;
+				World[arr_x[x]][arr_y[y]] = 1;  break;//опасность
+			/*case 2: pt[arr[x]][arr1[y]] = &Actions::The_Battle_with_Elk; World[arr[x]][arr1[y]] = 2;  break;*///продавец
+			}
+		}
+			swap(arr_x[x], arr_x[max_x-1-i]);
+			swap(arr_y[y], arr_y[max_y-1 - i]);
+		
+	
+	}
+}
+
+void Map::print()
+{
+	for (int i = 0; i < max_x; i++) {
+		for (int j = 0; j < abs(max_y); j++) {
+			if (i == max_x / 2 && j == abs(max_y) / 2)cout << "p" << "  ";else
+			cout << World[i][j]<<"  ";
+			
+		}
+		cout << endl;
+	
 	}
 }
 

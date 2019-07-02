@@ -2,7 +2,7 @@
 #include"Players.h"
 const int begin_Map = 0, end_Map = 10;
 const int max_word=100;
-const int max_act=15;
+const int max_act=30;
 
 
 	/*Start_Of_Dialogue sod[25];*/
@@ -13,17 +13,21 @@ class Map {
 private:
 	typedef int (Actions::* pToFunc)(Player &, Pers&);
 	pToFunc pt[max_word][max_word];
+	int World[max_word][max_word];
 	Actions atc;
 	int x;
 	int y;
-	int x_y_max;
-	int x_y_min;
-	int *arr;
+	int max_x;
+	int max_y;
+	int *arr_x;
+	int *arr_y;
 public:
 	Map(int max, int min);
 
 	
 	void Generation_Of_The_World();
+
+	void print();
 
 };
 
