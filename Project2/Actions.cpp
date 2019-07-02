@@ -87,6 +87,49 @@ int Actions::The_Battle_with_Bear(Player & player)
 			}
 		} while (a != 5);
 
+		int min = 1; int max = 4;
+		int count = 0;
+		do {
+
+			a= min + (int)floor((double(rand()) / RAND_MAX)*(max-min + 1));;
+			switch (a)
+			{
+			case 1: if (ch.Chek_moves(number_of_moves_for_player, 1)) {
+				if (ch.Advance_Distance_Check(field.return_x2(), field.return_x1()))
+				{
+					field.minus_x2();
+					number_of_moves_for_player--;
+				}
+			}break;
+
+			case 2:  if (ch.Chek_moves(number_of_moves_for_player, 1)) {
+				if (ch.End_Check(field.return_x2(), 1)) {
+					field.plus_x2();
+					number_of_moves_for_player--;
+				}
+				break;
+			}
+			case 3:  if (ch.Chek_moves(number_of_moves_for_player, 4)) {
+				if (ch.Check_Distance_For_Attack( field.return_x2(), field.return_x1()))
+				{
+					player.Set_HP(calc.Damage_Calculation(player.Use_Armor(), player.melee_attack(i)));
+					number_of_moves_for_player -= 4;
+
+				}
+			}break;
+
+			case 4: if (ch.Chek_moves(number_of_moves_for_player, 2)) {
+				player.Set_HP(calc.Damage_Calculation(player.Use_Armor(), player.long_range_attack(i)));
+				number_of_moves_for_player -= 2;
+
+			} break;
+			}
+			count++;
+			if (count > 15) a = 5;
+
+
+		} while (a != 5);
+
 
 
 	//	player.Set_HP(calc.Damage_Calculation(player.Use_Armor(), bear.long_range_attack(i)));
@@ -170,8 +213,8 @@ bool Chek::Advance_Distance_Check(int x1, int x2)
 bool Chek::End_Check(int x1, int i)
 {
 	Massage m;
-	if (x1 - 1 == begin_Map) { m.massage_about_Advance_Distance(); return false; }///////10-начало поля 
-	if (x1 + 1 == end_Map) return false;/////конец поля
+	if (x1 - 1 <= begin_Map) { m.massage_about_Advance_Distance(); return false; }///////10-начало поля 
+	if (x1 + 1 >= end_Map) return false;/////конец поля
 	return true;
 }
 

@@ -163,7 +163,7 @@ void Playng(int x, int y)
 	    y1_player = y_player;
 		
 		system("cls");
-	} while (a != 'n'&&a!=-1);
+	} while (a != 'n'&&answer!=-1);
 	cout << "игра окончена\n";
 
 	
